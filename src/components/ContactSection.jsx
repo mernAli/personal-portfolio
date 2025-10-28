@@ -1,4 +1,4 @@
-import { useRef, useEffect } from "react";
+import { useRef, useEffect , useState} from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
@@ -102,6 +102,7 @@ const ContactSection = () => {
 
   return (
     <section
+      id="contact"
       ref={sectionRef}
       className="flex items-center justify-center bg-black relative"
       style={{ overscrollBehavior: "none" }}
@@ -139,7 +140,11 @@ const ContactSection = () => {
             excited to connect with you. Feel free to reach out — I’d love to
             hear from you and explore how we can work together!
           </p>
-          <button className="overflow-hidden px-6 py-1 mb-2 rounded-xl bg-black hover:bg-white hover:text-black transition-all duration-500 scale-[0.1] absolute sm:mt-9 mt-7 text-nowrap">
+          <button className="overflow-hidden px-6 py-1 mb-2 rounded-xl bg-black hover:bg-white hover:text-black transition-all duration-500 scale-[0.1] absolute sm:mt-9 mt-7 text-nowrap"
+          onClick={()=>{
+            toggleMenu();
+            openContactForm();
+           }}>
             Contact Me
           </button>  
 

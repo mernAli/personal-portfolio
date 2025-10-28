@@ -16,22 +16,22 @@ const ProjectSection = () => {
         {
             id: 1,
             title: "Imagify",
-            imageSrc: "/images/Home-Imagify.png",
+            imageSrc: "/images/Imagify.png",
         },
         {
             id: 2,
             title: "Dubai-Geenie",
-            imageSrc: "/images/DubaiGeeni-Home.png",
+            imageSrc: "/images/DubaiGeenie.png",
         }, 
         {
             id: 3,
             title: "Turf-And-Pool",
-            imageSrc: "/images/TurfAndPool-Home.jpg"
+            imageSrc: "/images/TurfAndPool.jpg"
         },
         {
             id: 4,
             title: "Portfolio",
-            imageSrc: "/images/Home-Portfolio.png"
+            imageSrc: "/images/Portfolio.png"
         },
         
         
@@ -176,12 +176,13 @@ const ProjectSection = () => {
   return (
     <section
         ref = {sectionRef}
+        // id="project"
         id="horizontal-section"
-        className="relative py-20 bg-slate-100 overflow-hidden"
+        className="relative py-20 bg-slate-100 overflow-hidden bg-gradient-to-b from-purple-900 to-black"
     >
         {/* Setion title */}
         <div className="container mx-auto px-4 mb-16 relative z-10">
-            <h2 ref={titleRef} className="text-4xl md:text-5xl lg:text-6xl font-bold text-center mb-4 text-black">
+            <h2 ref={titleRef} className="text-4xl md:text-5xl lg:text-6xl font-bold text-center mb-4 text-white">
                 Featured Project
             </h2>
 
@@ -206,7 +207,7 @@ const ProjectSection = () => {
                             className="project-image max-w-full max-h-full rounded-2xl object-cover justify-between"
                             src={project.imageSrc} alt="project-img" />
 
-                            <h2 className="project-title flex items-center gap-3 md:text-3xl text-black mt-6 z-50 text-nowrap hover:text-gray-400 transition-colors duration-300 cursor-pointer">
+                            <h2 className="project-title flex items-center gap-3 md:text-3xl text-white mt-6 z-50 text-nowrap hover:text-yellow-500 transition-colors duration-300 cursor-pointer">
                                 {project.title} <SlShareAlt  />
                             </h2>
 

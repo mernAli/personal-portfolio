@@ -1,8 +1,9 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { FiGithub, FiInstagram, FiLinkedin, FiMenu, FiX } from "react-icons/fi";
 import { useState } from "react";
+import { send } from 'emailjs-com';
 
-const header = () => {
+const Header = () => {
 
   //Toggle menu open/close
   const [isOpen, setIsOpen] = useState(false)
@@ -13,6 +14,67 @@ const header = () => {
 
   const openContactForm = () => setContactFormOpen(true)
   const closeContactForm = () => setContactFormOpen(false)
+
+  // Add form state
+const [formData, setFormData] = useState({
+  name: '',
+  email: '',
+  message: ''
+});
+
+const [isSubmitting, setIsSubmitting] = useState(false);
+
+// Handle form input changes
+const handleInputChange = (e) => {
+  const { id, value } = e.target;
+  setFormData(prev => ({
+    ...prev,
+    [id]: value
+  }));
+};
+
+// Handle form submission - REPLACE YOUR EXISTING ONE WITH THIS
+const handleSubmit = async (e) => {
+  e.preventDefault();
+  setIsSubmitting(true);
+  
+  // Basic validation
+  if (!formData.name || !formData.email || !formData.message) {
+    alert('Please fill in all fields');
+    setIsSubmitting(false);
+    return;
+  }
+  
+  try {
+    // Send email using EmailJS
+    await send(
+      'service_rq5lpdq', // Your Service ID
+      'template_o696iti', // Your Template ID
+      {
+        from_name: formData.name,
+        from_email: formData.email,
+        message: formData.message,
+      },
+      'RdxUfJzc7w5M67g8U' // Your Public Key
+    );
+    
+    alert('Message sent successfully!');
+    
+    // Reset form and close
+    setFormData({
+      name: '',
+      email: '',
+      message: ''
+    });
+    closeContactForm();
+    
+  } catch (error) {
+    console.error('Failed to send message:', error);
+    alert('Failed to send message. Please try again.');
+  } finally {
+    setIsSubmitting(false);
+  }
+};
 
   return (
     <header className="absolute w-full z-50 transition-all duration-300">
@@ -41,9 +103,14 @@ const header = () => {
 
         {/* Desktop Navigation */}
         <nav className="lg:flex hidden space-x-8">
-          {["Home", "About", "Projects", "Contact"].map((item, index) => (
+          {[
+              { name: "Home", id: "home" },
+              { name: "About", id: "about" },
+              { name: "Projects", id: "horizontal-section" },
+              { name: "Contact", id: "contact" }
+          ].map((item, index) => (
             <motion.a
-              key={item}
+              key={item.name}
               initial={{ opacity: 0, y: -20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{
@@ -52,10 +119,16 @@ const header = () => {
                 damping: 20,
                 delay:0.7 + index *0.2,
               }}
+              href={`#${item.id}`}
               className="relative text-gray-800 dark:text-gray-200 hover:violet-600 dark:hover:text-violet-400 font-medium transition-colors duration-300 group"
-              href=""
+              onClick={(e) => {
+                e.preventDefault();
+                document.getElementById(item.id)?.scrollIntoView({
+                  behavior: 'smooth'
+                })
+              }}
             >
-              {item}
+              {item.name}
               <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-violet-600 group-hover:w-full transition-all duration-300"></span>
             </motion.a>
           ))}
@@ -71,7 +144,9 @@ const header = () => {
              transition={{ delay:1.3 , duration:0.8}}
 
              className="text-gray-700 dark:text-gray-300 hover:text-violet-600 dark:hover:text-violet-400 transition-colors duration-300" 
-             href="">
+             href="https://github.com/mernAli"
+             target="_blank"
+             rel="noopener noreferrer">
                 <FiGithub className="w-5 h-5"></FiGithub>
              </motion.a>
 
@@ -81,7 +156,9 @@ const header = () => {
              transition={{ delay:1.3 , duration:0.8}}
 
              className="text-gray-700 dark:text-gray-300 hover:text-violet-600 dark:hover:text-violet-400 transition-colors duration-300" 
-             href="">
+             href="https://www.instagram.com/ali_aman_____/"
+             target="_blank"
+             rel="noopener noreferrer">
                 <FiInstagram className="w-5 h-5"></FiInstagram>
              </motion.a>
 
@@ -91,7 +168,9 @@ const header = () => {
              transition={{ delay:1.3 , duration:0.8}}
 
              className="text-gray-700 dark:text-gray-300 hover:text-violet-600 dark:hover:text-violet-400 transition-colors duration-300" 
-             href="">
+             href="https://www.linkedin.com/in/ali-aman-8943b725b/"
+             target="_blank"
+             rel="noopener noreferrer">
                 <FiLinkedin className="w-5 h-5"></FiLinkedin>
              </motion.a>
 
@@ -137,14 +216,65 @@ const header = () => {
       transition={{ duration:0.5 }}
       className="md:hidden overflow-hidden bg-white dark:bg-gray-900 shadow-lg px-4 py-5 space-y-5 ">
         <nav className="flex flex-col space-y-3">
-             {["Home", "About", "Projects", "Contact"].map((item)=>(
-
+             {[
+                { name: "Home", id: "home" },
+                { name: "About", id: "about" },
+                { name: "Projects", id: "horizontal-section" },
+                { name: "Contact", id: "contact" } 
+             ].map((item)=>(
               <a 
-              onClick={toggleMenu}
-              className="text-gray-300 font-medium py-2"
-              key={item}
-              href="">
-                {item}
+                onClick={(e) => {
+                
+                  e.preventDefault();
+    
+                  // Scroll first
+                  const element = document.getElementById(item.id);
+                  
+
+                  //  if (element) {
+                  //   // Calculate header height for offset
+                  //   const headerHeight = 80; // Adjust this based on your header height
+                    
+                  //   // Get the element's position
+                  //   const elementPosition = element.getBoundingClientRect().top;
+                  //   const offsetPosition = elementPosition + window.pageYOffset - headerHeight;
+                    
+                  //   // Smooth scroll to position with offset
+                  //   window.scrollTo({
+                  //     top: offsetPosition,
+                  //     behavior: 'smooth'
+                  //   });
+                  // }
+
+                  if (element) {
+                    if (item.id === "contact") {
+                      // Special handling for contact section
+                      const yOffset = -50; // Adjust this value
+                      const y = element.getBoundingClientRect().top + window.pageYOffset + yOffset;
+                      
+                      window.scrollTo({
+                        top: y,
+                        behavior: 'smooth'
+                      });
+                    } else {
+                      // Normal scroll for other sections
+                      element.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                      });
+                    }
+                  }
+                  
+                  // Close menu after a short delay to allow scroll to start
+                  setTimeout(() => {
+                    toggleMenu();
+                  }, 400); // 400ms delay
+                }}
+                className="text-gray-300 font-medium py-2 cursor-pointer hover:text-violet-400 transition-colors"
+                key={item.name}
+                href={`#${item.id}`}
+              >
+                  {item.name}
               </a>
 
              ))}
@@ -154,15 +284,21 @@ const header = () => {
 
           <div className="flex space-x-5">
 
-            <a href="">
+            <a href="https://github.com/mernAli"
+            target="_blank"
+            rel="noopener noreferrer">
               <FiGithub className="h-5 w-5 text-gray-300"/>
             </a>
 
-            <a href="">
+            <a href="https://www.instagram.com/ali_aman_____/"
+            target="_blank"
+            rel="noopener noreferrer">
               <FiInstagram className="h-5 w-5 text-gray-300"/>
             </a>
 
-            <a href="">
+            <a href="https://www.linkedin.com/in/ali-aman-8943b725b/"
+            target="_blank"
+            rel="noopener noreferrer">
               <FiLinkedin className="h-5 w-5 text-gray-300"/>
             </a>
 
@@ -210,7 +346,7 @@ const header = () => {
               </div>
 
               {/* Input forms */}
-              <form className="space-y-4">
+              <form className="space-y-4" onSubmit={handleSubmit}>
                 <div>
                   <label htmlFor="name" 
                   className="block text-sm font-medium text-gray-300 mb-1">
@@ -218,6 +354,8 @@ const header = () => {
                   </label>
                   <input type="text" 
                   id="name"
+                  value={formData.name}
+                  onChange={handleInputChange}
                   placeholder="Your Name"
                   className="w-full px-4 py-2 border border-gray-600 focus:ring-2 focus:ring-violet-500 focus:border-violet-500 bg-gray-700 rounded-lg "
                   />
@@ -230,6 +368,8 @@ const header = () => {
                   </label>
                   <input type="email" 
                   id="email"
+                  value={formData.email}
+                  onChange={handleInputChange}
                   placeholder="Your Email"
                   className="w-full px-4 py-2 border border-gray-600 focus:ring-2 focus:ring-violet-500 focus:border-violet-500 bg-gray-700 rounded-lg "
                   />
@@ -243,6 +383,8 @@ const header = () => {
                   <textarea 
                   rows="4"
                   id="message"
+                  value={formData.message}
+                  onChange={handleInputChange}
                   placeholder="How can I help you?"
                   className="w-full px-4 py-2 border border-gray-600 focus:ring-2 focus:ring-violet-500 focus:border-violet-500 bg-gray-700 rounded-lg "
                   />
@@ -250,10 +392,11 @@ const header = () => {
 
                 <motion.button 
                 type="submit"
+                disabled={isSubmitting}
                 whileHover={{ scale: 1.03 }}
                 whileTap={{ scale: 0.97 }}
-                className="w-full px-4 py-2 bg-gradient-to-r from-violet-600 to-violet-400 hover:from-violet-700 hover:to-violet-700 transition-all duration-300 rounded-lg shadow-md hover:shadow-lg hover:shadow-violet-600/50"> 
-                  Send Message
+                className="w-full px-4 py-2 bg-gradient-to-r from-violet-600 to-violet-400 hover:from-violet-700 hover:to-violet-700 transition-all duration-300 rounded-lg shadow-md hover:shadow-lg hover:shadow-violet-600/50 disabled:opacity-50 disabled:cursor-not-allowed"> 
+                  {isSubmitting ? 'Sending...' : 'Send Message'}
                 </motion.button>
               </form>
 
@@ -267,4 +410,4 @@ const header = () => {
   );
 };
 
-export default header;
+export default Header;

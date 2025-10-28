@@ -2,6 +2,8 @@
 import { FiGithub, FiInstagram, FiLinkedin } from "react-icons/fi"
 
 const Footer = () => {
+
+    
   return (
     <footer className="bg-black text-white py-16 px-6 mt-40">
         <div className="max-w-6xl mx-auto">
@@ -18,16 +20,25 @@ const Footer = () => {
                         Connect
                     </h3>
                     <div className="flex space-x-4">
-                        <a className="text-gray-800 hover:text-purple-200 transition-colors" href="#">
+                        <a className="text-gray-800 hover:text-purple-200 transition-colors" 
+                        href="https://github.com/mernAli"
+                        target="_blank"
+                        rel="noopener noreferrer">
                             <FiGithub className="w-5 h-5"/>
                         </a>
 
-                        <a className="text-gray-800 hover:text-purple-200 transition-colors" href="#">
-                            <FiLinkedin className="w-5 h-5"/>
+                        <a className="text-gray-800 hover:text-purple-200 transition-colors" 
+                        href="https://www.instagram.com/ali_aman_____/"
+                        target="_blank"
+                        rel="noopener noreferrer">
+                            <FiInstagram className="w-5 h-5"/>
                         </a>
 
-                        <a className="text-gray-800 hover:text-purple-200 transition-colors" href="#">
-                            <FiInstagram className="w-5 h-5"/>
+                        <a className="text-gray-800 hover:text-purple-200 transition-colors" 
+                        href="https://www.linkedin.com/in/ali-aman-8943b725b/"
+                        target="_blank"
+                        rel="noopener noreferrer">
+                            <FiLinkedin className="w-5 h-5"/>
                         </a>
 
                     </div>

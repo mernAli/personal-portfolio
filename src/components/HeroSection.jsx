@@ -34,7 +34,7 @@ const HeroSection = () => {
           }}
           className=" text-lg md:text-lg lg:text-xl text-purple-200 max-w-2xl "
         >
-          👋 Hi, I’m Ali Aman, a MERN Stack Developer with a BSc in Computer
+          👋 Hi, I’m Ali Aman, a MERN Stack Developer with a Bachelor's Degree in Computer
           Science from EMEA College of Arts and Science, Calicut University. I
           recently completed a six-month MERN training program, gaining hands-on
           experience and building multiple projects.

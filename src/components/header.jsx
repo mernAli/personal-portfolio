@@ -5,97 +5,79 @@ import { send } from 'emailjs-com';
 
 const Header = () => {
 
-  //Toggle menu open/close
   const [isOpen, setIsOpen] = useState(false)
   const toggleMenu = () => setIsOpen(!isOpen)
 
-  //State to track contact form is open 
   const [ contactFormOpen, setContactFormOpen] = useState(false)
-
   const openContactForm = () => setContactFormOpen(true)
   const closeContactForm = () => setContactFormOpen(false)
 
-  // Add form state
-const [formData, setFormData] = useState({
-  name: '',
-  email: '',
-  message: ''
-});
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    message: ''
+  });
 
-const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-// Handle form input changes
-const handleInputChange = (e) => {
-  const { id, value } = e.target;
-  setFormData(prev => ({
-    ...prev,
-    [id]: value
-  }));
-};
+  const handleInputChange = (e) => {
+    const { id, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [id]: value
+    }));
+  };
 
-// Handle form submission - REPLACE YOUR EXISTING ONE WITH THIS
-const handleSubmit = async (e) => {
-  e.preventDefault();
-  setIsSubmitting(true);
-  
-  // Basic validation
-  if (!formData.name || !formData.email || !formData.message) {
-    alert('Please fill in all fields');
-    setIsSubmitting(false);
-    return;
-  }
-  
-  try {
-    // Send email using EmailJS
-    await send(
-      'service_rq5lpdq', // Your Service ID
-      'template_o696iti', // Your Template ID
-      {
-        from_name: formData.name,
-        from_email: formData.email,
-        message: formData.message,
-      },
-      'RdxUfJzc7w5M67g8U' // Your Public Key
-    );
-    
-    alert('Message sent successfully!');
-    
-    // Reset form and close
-    setFormData({
-      name: '',
-      email: '',
-      message: ''
-    });
-    closeContactForm();
-    
-  } catch (error) {
-    console.error('Failed to send message:', error);
-    alert('Failed to send message. Please try again.');
-  } finally {
-    setIsSubmitting(false);
-  }
-};
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+
+    if (!formData.name || !formData.email || !formData.message) {
+      alert('Please fill in all fields');
+      setIsSubmitting(false);
+      return;
+    }
+
+    try {
+      // ✅ Updated with your correct EmailJS credentials
+      await send(
+        'service_lwcwm8j',   // Your Service ID
+        'template_gch2uk3',  // Your Template ID
+        {
+          from_name: formData.name,
+          from_email: formData.email,
+          message: formData.message,
+        },
+        'RdxUfJzc7w5M67g8U'  // Your Public Key
+      );
+
+      alert('Message sent successfully!');
+
+      setFormData({ name: '', email: '', message: '' });
+      closeContactForm();
+
+    } catch (error) {
+      console.error('Failed to send message:', error);
+      alert('Failed to send message. Please try again.');
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   return (
     <header className="absolute w-full z-50 transition-all duration-300">
       <div className="conatiner mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-16 md:h-20">
+
         {/* Logo */}
         <motion.div
           initial={{ opacity: 0, x: -100 }}
           animate={{ opacity: 1, x: 0 }}
-          transition={{
-            type: "spring",
-            stiffness: 100,
-            damping: 25,
-            duration: 1.2,
-            delay: 0.3,
-          }}
+          transition={{ type: "spring", stiffness: 100, damping: 25, duration: 1.2, delay: 0.3 }}
           className="flex items-center"
         >
           <div className="h-10 w-10 rounded-xl bg-gradient-to-r from-gray-500 to-gray-100 flex items-center justify-center text-purple-600 font-bold text-xl mr-3">
             A
           </div>
-
           <span className="text-xl font-bold bg-gradient-to-r from-gray-300 to-gray-100 bg-clip-text text-transparent">
             Ali Aman
           </span>
@@ -104,28 +86,21 @@ const handleSubmit = async (e) => {
         {/* Desktop Navigation */}
         <nav className="lg:flex hidden space-x-8">
           {[
-              { name: "Home", id: "home" },
-              { name: "About", id: "about" },
-              { name: "Projects", id: "horizontal-section" },
-              { name: "Contact", id: "contact" }
+            { name: "Home", id: "home" },
+            { name: "About", id: "about" },
+            { name: "Projects", id: "horizontal-section" },
+            { name: "Contact", id: "contact" }
           ].map((item, index) => (
             <motion.a
               key={item.name}
               initial={{ opacity: 0, y: -20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{
-                type: "spring",
-                stiffness: 100,
-                damping: 20,
-                delay:0.7 + index *0.2,
-              }}
+              transition={{ type: "spring", stiffness: 100, damping: 20, delay: 0.7 + index * 0.2 }}
               href={`#${item.id}`}
               className="relative text-gray-800 dark:text-gray-200 hover:violet-600 dark:hover:text-violet-400 font-medium transition-colors duration-300 group"
               onClick={(e) => {
                 e.preventDefault();
-                document.getElementById(item.id)?.scrollIntoView({
-                  behavior: 'smooth'
-                })
+                document.getElementById(item.id)?.scrollIntoView({ behavior: 'smooth' })
               }}
             >
               {item.name}
@@ -135,275 +110,184 @@ const handleSubmit = async (e) => {
         </nav>
 
         {/* Social icons - Desktop */}
+        <div className="md:flex hidden items-center space-x-4">
+          <motion.a
+            initial={{ opacity: 0, scale: 0.5 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 1.3, duration: 0.8 }}
+            className="text-gray-700 dark:text-gray-300 hover:text-violet-600 dark:hover:text-violet-400 transition-colors duration-300"
+            href="https://github.com/mernAli" target="_blank" rel="noopener noreferrer">
+            <FiGithub className="w-5 h-5" />
+          </motion.a>
+          <motion.a
+            initial={{ opacity: 0, scale: 0.5 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 1.3, duration: 0.8 }}
+            className="text-gray-700 dark:text-gray-300 hover:text-violet-600 dark:hover:text-violet-400 transition-colors duration-300"
+            href="https://www.instagram.com/ali_aman_____/" target="_blank" rel="noopener noreferrer">
+            <FiInstagram className="w-5 h-5" />
+          </motion.a>
+          <motion.a
+            initial={{ opacity: 0, scale: 0.5 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 1.3, duration: 0.8 }}
+            className="text-gray-700 dark:text-gray-300 hover:text-violet-600 dark:hover:text-violet-400 transition-colors duration-300"
+            href="https://www.linkedin.com/in/ali-aman-8943b725b/" target="_blank" rel="noopener noreferrer">
+            <FiLinkedin className="w-5 h-5" />
+          </motion.a>
 
-          <div className="md:flex hidden items-center space-x-4">
+          {/* Hire Me Button */}
+          <motion.button
+            onClick={openContactForm}
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 1.6, duration: 0.8, type: "spring", stiffness: 100, damping: 15 }}
+            className="ml-4 px-4 py-2 rounded-xl bg-gradient-to-r from-gray-400 to-gray-100 text-violet-700 font-bold hover:to-purple-700 hover:text-white transition-all duration-500">
+            Hire Me
+          </motion.button>
+        </div>
 
-             <motion.a
-             initial={{ opacity: 0, scale:0.5 }}
-             animate={{ opacity: 1, scale:1 }}
-             transition={{ delay:1.3 , duration:0.8}}
-
-             className="text-gray-700 dark:text-gray-300 hover:text-violet-600 dark:hover:text-violet-400 transition-colors duration-300" 
-             href="https://github.com/mernAli"
-             target="_blank"
-             rel="noopener noreferrer">
-                <FiGithub className="w-5 h-5"></FiGithub>
-             </motion.a>
-
-             <motion.a
-             initial={{ opacity: 0, scale:0.5 }}
-             animate={{ opacity: 1, scale:1 }}
-             transition={{ delay:1.3 , duration:0.8}}
-
-             className="text-gray-700 dark:text-gray-300 hover:text-violet-600 dark:hover:text-violet-400 transition-colors duration-300" 
-             href="https://www.instagram.com/ali_aman_____/"
-             target="_blank"
-             rel="noopener noreferrer">
-                <FiInstagram className="w-5 h-5"></FiInstagram>
-             </motion.a>
-
-             <motion.a
-             initial={{ opacity: 0, scale:0.5 }}
-             animate={{ opacity: 1, scale:1 }}
-             transition={{ delay:1.3 , duration:0.8}}
-
-             className="text-gray-700 dark:text-gray-300 hover:text-violet-600 dark:hover:text-violet-400 transition-colors duration-300" 
-             href="https://www.linkedin.com/in/ali-aman-8943b725b/"
-             target="_blank"
-             rel="noopener noreferrer">
-                <FiLinkedin className="w-5 h-5"></FiLinkedin>
-             </motion.a>
-
-
-             {/* Hire Me Button */}
-
-             <motion.button
-             onClick={openContactForm}
-             initial={{ opacity: 0, scale:0.8 }}
-             animate={{ opacity: 1, scale:1 }}
-             transition={{
-                delay:1.6 ,
-                duration:0.8,
-                type:"spring",
-                stiffness:100,
-                damping:15,
-             }}
-             className="ml-4 px-4 py-2 rounded-xl bg-gradient-to-r from-gray-400 to-gray-100 text-violet-700 font-bold hover:to-purple-700 hover:text-white transition-all duration-500">
-                Hire Me
-             </motion.button>
-
-          </div>
-
-          {/* Mobile menu Button */}
-          <div className="md:hidden flex items-center">
-             <motion.button 
-              whileTap={{ scale:0.7 }}
-              onClick={toggleMenu}
-              className="text-gray-300">
-              {isOpen ? <FiX className="h-6 w-6"/> : <FiMenu className="h-6 w-6"/>}
-             </motion.button>
-          </div>
-
+        {/* Mobile menu Button */}
+        <div className="md:hidden flex items-center">
+          <motion.button
+            whileTap={{ scale: 0.7 }}
+            onClick={toggleMenu}
+            className="text-gray-300">
+            {isOpen ? <FiX className="h-6 w-6" /> : <FiMenu className="h-6 w-6" />}
+          </motion.button>
+        </div>
       </div>
 
       {/* Mobile Menu */}
       <motion.div
-      initial= {{ height:0, opacity:0 }}
-      animate = {{
-        opacity: isOpen ? 1 : 0,
-        height : isOpen ? "auto" : 0,
-      }}
-      transition={{ duration:0.5 }}
-      className="md:hidden overflow-hidden bg-white dark:bg-gray-900 shadow-lg px-4 py-5 space-y-5 ">
+        initial={{ height: 0, opacity: 0 }}
+        animate={{ opacity: isOpen ? 1 : 0, height: isOpen ? "auto" : 0 }}
+        transition={{ duration: 0.5 }}
+        className="md:hidden overflow-hidden bg-white dark:bg-gray-900 shadow-lg px-4 py-5 space-y-5">
         <nav className="flex flex-col space-y-3">
-             {[
-                { name: "Home", id: "home" },
-                { name: "About", id: "about" },
-                { name: "Projects", id: "horizontal-section" },
-                { name: "Contact", id: "contact" } 
-             ].map((item)=>(
-              <a 
-                onClick={(e) => {
-                
-                  e.preventDefault();
-    
-                  // Scroll first
-                  const element = document.getElementById(item.id);
-                  
-
-                  //  if (element) {
-                  //   // Calculate header height for offset
-                  //   const headerHeight = 80; // Adjust this based on your header height
-                    
-                  //   // Get the element's position
-                  //   const elementPosition = element.getBoundingClientRect().top;
-                  //   const offsetPosition = elementPosition + window.pageYOffset - headerHeight;
-                    
-                  //   // Smooth scroll to position with offset
-                  //   window.scrollTo({
-                  //     top: offsetPosition,
-                  //     behavior: 'smooth'
-                  //   });
-                  // }
-
-                  if (element) {
-                    if (item.id === "contact") {
-                      // Special handling for contact section
-                      const yOffset = -50; // Adjust this value
-                      const y = element.getBoundingClientRect().top + window.pageYOffset + yOffset;
-                      
-                      window.scrollTo({
-                        top: y,
-                        behavior: 'smooth'
-                      });
-                    } else {
-                      // Normal scroll for other sections
-                      element.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                      });
-                    }
+          {[
+            { name: "Home", id: "home" },
+            { name: "About", id: "about" },
+            { name: "Projects", id: "horizontal-section" },
+            { name: "Contact", id: "contact" }
+          ].map((item) => (
+            <a
+              key={item.name}
+              onClick={(e) => {
+                e.preventDefault();
+                const element = document.getElementById(item.id);
+                if (element) {
+                  if (item.id === "contact") {
+                    const yOffset = -50;
+                    const y = element.getBoundingClientRect().top + window.pageYOffset + yOffset;
+                    window.scrollTo({ top: y, behavior: 'smooth' });
+                  } else {
+                    element.scrollIntoView({ behavior: 'smooth', block: 'start' });
                   }
-                  
-                  // Close menu after a short delay to allow scroll to start
-                  setTimeout(() => {
-                    toggleMenu();
-                  }, 400); // 400ms delay
-                }}
-                className="text-gray-300 font-medium py-2 cursor-pointer hover:text-violet-400 transition-colors"
-                key={item.name}
-                href={`#${item.id}`}
-              >
-                  {item.name}
-              </a>
-
-             ))}
+                }
+                setTimeout(() => { toggleMenu(); }, 400);
+              }}
+              className="text-gray-300 font-medium py-2 cursor-pointer hover:text-violet-400 transition-colors"
+              href={`#${item.id}`}
+            >
+              {item.name}
+            </a>
+          ))}
         </nav>
 
         <div className="pt-4 border-t border-gray-200 dark:border-gray-700">
-
           <div className="flex space-x-5">
-
-            <a href="https://github.com/mernAli"
-            target="_blank"
-            rel="noopener noreferrer">
-              <FiGithub className="h-5 w-5 text-gray-300"/>
+            <a href="https://github.com/mernAli" target="_blank" rel="noopener noreferrer">
+              <FiGithub className="h-5 w-5 text-gray-300" />
             </a>
-
-            <a href="https://www.instagram.com/ali_aman_____/"
-            target="_blank"
-            rel="noopener noreferrer">
-              <FiInstagram className="h-5 w-5 text-gray-300"/>
+            <a href="https://www.instagram.com/ali_aman_____/" target="_blank" rel="noopener noreferrer">
+              <FiInstagram className="h-5 w-5 text-gray-300" />
             </a>
-
-            <a href="https://www.linkedin.com/in/ali-aman-8943b725b/"
-            target="_blank"
-            rel="noopener noreferrer">
-              <FiLinkedin className="h-5 w-5 text-gray-300"/>
+            <a href="https://www.linkedin.com/in/ali-aman-8943b725b/" target="_blank" rel="noopener noreferrer">
+              <FiLinkedin className="h-5 w-5 text-gray-300" />
             </a>
-
           </div>
 
-           <button 
-           onClick={()=>{
-            toggleMenu();
-            openContactForm();
-           }}
-           className="mt-4 block w-full px-4 py-2 rounded-lg bg-gradient-to-r from-violet-600 to-violet-400 font-bold">
+          {/* Mobile Contact Me button — opens the Get In Touch form */}
+          <button
+            onClick={() => { toggleMenu(); openContactForm(); }}
+            className="mt-4 block w-full px-4 py-2 rounded-lg bg-gradient-to-r from-violet-600 to-violet-400 font-bold">
             Contact Me
-           </button>
+          </button>
         </div>
       </motion.div>
 
-      {/* contact form  */}
+      {/* Contact Form Modal */}
       <AnimatePresence>
-      {contactFormOpen && (
-        <motion.div
-          initial={{ opacity:0 }}
-          animate={{ opacity:1 }}
-          exit={{ opacity:0 }}
-          transition={{ duration:0.5 }}
-          className="fixed inset-0 bg-black/50 background-blur-sm z-50 flex items-center justify-center p-4">
+        {contactFormOpen && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.5 }}
+            className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
 
-            <motion.div 
-            initial={{ scale:0.8, opacity:0, y:30 }}
-            animate={{ scale:1, opacity:1, y:0 }}
-            exit={{ scale:0.8, opacity:0, y:30 }}
-            transition={{
-              type:"spring",
-              damping:30,
-              stiffness:200,
-              duration:0.8,
-            }}
-            className="bg-white dark:bg-gray-800 rounded-xl shadow-xl w-full max-w-md p-6">
+            <motion.div
+              initial={{ scale: 0.8, opacity: 0, y: 30 }}
+              animate={{ scale: 1, opacity: 1, y: 0 }}
+              exit={{ scale: 0.8, opacity: 0, y: 30 }}
+              transition={{ type: "spring", damping: 30, stiffness: 200, duration: 0.8 }}
+              className="bg-white dark:bg-gray-800 rounded-xl shadow-xl w-full max-w-md p-6">
+
               <div className="flex justify-between items-center mb-4">
-                <h1 className="text-2xl font-bold text-gray-300">
-                  Get In Touch
-                </h1>
+                <h1 className="text-2xl font-bold text-gray-300">Get In Touch</h1>
                 <button onClick={closeContactForm}>
-                  <FiX className="w-5 h-5 text-gray-300 font-extrabold"/>
+                  <FiX className="w-5 h-5 text-gray-300 font-extrabold" />
                 </button>
               </div>
 
-              {/* Input forms */}
               <form className="space-y-4" onSubmit={handleSubmit}>
                 <div>
-                  <label htmlFor="name" 
-                  className="block text-sm font-medium text-gray-300 mb-1">
-                    Name
-                  </label>
-                  <input type="text" 
-                  id="name"
-                  value={formData.name}
-                  onChange={handleInputChange}
-                  placeholder="Your Name"
-                  className="w-full px-4 py-2 border border-gray-600 focus:ring-2 focus:ring-violet-500 focus:border-violet-500 bg-gray-700 rounded-lg "
+                  <label htmlFor="name" className="block text-sm font-medium text-gray-300 mb-1">Name</label>
+                  <input
+                    type="text" id="name"
+                    value={formData.name}
+                    onChange={handleInputChange}
+                    placeholder="Your Name"
+                    className="w-full px-4 py-2 border border-gray-600 focus:ring-2 focus:ring-violet-500 focus:border-violet-500 bg-gray-700 rounded-lg text-white"
                   />
                 </div>
 
                 <div>
-                  <label htmlFor="email" 
-                  className="block text-sm font-medium text-gray-300 mb-1">
-                    Email
-                  </label>
-                  <input type="email" 
-                  id="email"
-                  value={formData.email}
-                  onChange={handleInputChange}
-                  placeholder="Your Email"
-                  className="w-full px-4 py-2 border border-gray-600 focus:ring-2 focus:ring-violet-500 focus:border-violet-500 bg-gray-700 rounded-lg "
+                  <label htmlFor="email" className="block text-sm font-medium text-gray-300 mb-1">Email</label>
+                  <input
+                    type="email" id="email"
+                    value={formData.email}
+                    onChange={handleInputChange}
+                    placeholder="Your Email"
+                    className="w-full px-4 py-2 border border-gray-600 focus:ring-2 focus:ring-violet-500 focus:border-violet-500 bg-gray-700 rounded-lg text-white"
                   />
                 </div>
 
                 <div>
-                  <label htmlFor="message" 
-                  className="block text-sm font-medium text-gray-300 mb-1">
-                    Message
-                  </label>
-                  <textarea 
-                  rows="4"
-                  id="message"
-                  value={formData.message}
-                  onChange={handleInputChange}
-                  placeholder="How can I help you?"
-                  className="w-full px-4 py-2 border border-gray-600 focus:ring-2 focus:ring-violet-500 focus:border-violet-500 bg-gray-700 rounded-lg "
+                  <label htmlFor="message" className="block text-sm font-medium text-gray-300 mb-1">Message</label>
+                  <textarea
+                    rows="4" id="message"
+                    value={formData.message}
+                    onChange={handleInputChange}
+                    placeholder="How can I help you?"
+                    className="w-full px-4 py-2 border border-gray-600 focus:ring-2 focus:ring-violet-500 focus:border-violet-500 bg-gray-700 rounded-lg text-white"
                   />
                 </div>
 
-                <motion.button 
-                type="submit"
-                disabled={isSubmitting}
-                whileHover={{ scale: 1.03 }}
-                whileTap={{ scale: 0.97 }}
-                className="w-full px-4 py-2 bg-gradient-to-r from-violet-600 to-violet-400 hover:from-violet-700 hover:to-violet-700 transition-all duration-300 rounded-lg shadow-md hover:shadow-lg hover:shadow-violet-600/50 disabled:opacity-50 disabled:cursor-not-allowed"> 
+                <motion.button
+                  type="submit"
+                  disabled={isSubmitting}
+                  whileHover={{ scale: 1.03 }}
+                  whileTap={{ scale: 0.97 }}
+                  className="w-full px-4 py-2 bg-gradient-to-r from-violet-600 to-violet-400 hover:from-violet-700 hover:to-violet-700 transition-all duration-300 rounded-lg shadow-md hover:shadow-lg hover:shadow-violet-600/50 disabled:opacity-50 disabled:cursor-not-allowed text-white font-bold">
                   {isSubmitting ? 'Sending...' : 'Send Message'}
                 </motion.button>
               </form>
 
             </motion.div>
-
-        </motion.div>
-      )}
+          </motion.div>
+        )}
       </AnimatePresence>
 
     </header>

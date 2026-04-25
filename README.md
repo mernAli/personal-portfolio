@@ -2,7 +2,7 @@
  
 A modern, animated personal portfolio built with React and Vite. Features smooth scroll-based animations, a horizontal project showcase, an interactive contact section, and a working contact form — all optimized for both desktop and mobile.
  
-🌐 **Live Demo:** [your-portfolio.vercel.app](https://your-portfolio.vercel.app) ← replace with your URL after deploying
+🌐 **Live Demo:** https://personal-portfolio-kappa-six-70.vercel.app/
  
 ---
  
